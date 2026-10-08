@@ -11,7 +11,7 @@ Bingo that works without internet — for Windows and Android.
 
 Checksums (SHA-256) are listed in each [release](https://github.com/Smile-Room/gobingo-download/releases).
 
-Help: call **0945 17 85 28**.
+Help: call **0945178528** or **0941834927**.
 
 ---
 
