@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GoBingo Offline · Download</title>
+  <meta name="description" content="Download GoBingo Offline for Windows and Android. Bingo that works without internet, with Amharic voice callers and offline vouchers.">
+  <meta property="og:title" content="GoBingo Offline · Download for Windows & Android">
+  <meta property="og:description" content="Bingo that works without internet. Amharic voice callers, offline vouchers, demo mode.">
+  <meta property="og:image" content="assets/screenshot.png">
+  <meta name="theme-color" content="#0a1230">
+  <link rel="icon" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a1230;
+      --bg2: #0f1a44;
+      --card: rgba(255, 255, 255, .06);
+      --line: rgba(255, 255, 255, .1);
+      --text: #eef2ff;
+      --muted: #aab4d4;
+      --blue: #2f6bff;
+      --blue2: #1f4fe0;
+      --green: #1fbf75;
+      --red: #ff4d5e;
+      --yellow: #ffc83d;
+      --radius: 22px;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: Poppins, "Noto Sans Ethiopic", "Segoe UI", Arial, sans-serif; line-height: 1.55;
+      overflow-x: hidden;
+    }
+    .am { font-family: "Noto Sans Ethiopic", Poppins, sans-serif; }
+    a { color: inherit; }
+    .wrap { width: min(1120px, 100% - 32px); margin: 0 auto; }
+
+    /* ---------- top bar ---------- */
+    .nav { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(12px); background: rgba(10, 18, 48, .72); border-bottom: 1px solid var(--line); }
+    .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; letter-spacing: .3px; }
+    .brand img { height: 34px; width: auto; background: #fff; border-radius: 8px; padding: 3px 6px; }
+    .nav-links { display: flex; gap: 22px; font-size: 14px; color: var(--muted); }
+    .nav-links a { text-decoration: none; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta { text-decoration: none; font-weight: 700; font-size: 14px; padding: 9px 16px; border-radius: 12px; background: var(--blue); }
+    @media (max-width: 760px) { .nav-links { display: none; } }
+
+    /* ---------- hero ---------- */
+    .hero { position: relative; padding: 72px 0 40px; overflow: hidden;
+      background: radial-gradient(900px 500px at 15% -10%, rgba(47, 107, 255, .35), transparent 60%),
+                  radial-gradient(700px 420px at 95% 10%, rgba(255, 77, 94, .18), transparent 60%),
+                  linear-gradient(180deg, var(--bg2), var(--bg)); }
+    .hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; }
+    @media (max-width: 920px) { .hero .wrap { grid-template-columns: 1fr; } }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 600;
+      background: rgba(31, 191, 117, .14); color: #7df0b8; border: 1px solid rgba(31, 191, 117, .35); }
+    .pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(31, 191, 117, .25); }
+    h1 { font-size: clamp(34px, 5.4vw, 60px); line-height: 1.08; margin: 18px 0 10px; font-weight: 900; letter-spacing: -.5px; }
+    h1 .grad { background: linear-gradient(90deg, #7fb0ff, #fff 45%, #ffd36b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .lead { font-size: 18px; color: var(--muted); max-width: 560px; margin: 0 0 6px; }
+    .lead.am { font-size: 17px; color: #cdd6f5; }
+
+    /* bingo balls */
+    .balls { display: flex; gap: 10px; margin: 26px 0 0; flex-wrap: wrap; }
+    .ball { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; font-weight: 900; font-size: 22px; color: #111;
+      background: radial-gradient(circle at 32% 28%, #fff 0 30%, var(--c) 31%); box-shadow: inset 0 -6px 12px rgba(0, 0, 0, .25), 0 8px 18px rgba(0, 0, 0, .35);
+      animation: bob 3.2s ease-in-out infinite; animation-delay: var(--d); }
+    .ball span { width: 32px; height: 32px; border-radius: 50%; background: #fff; display: grid; place-items: center; }
+    @keyframes bob { 50% { transform: translateY(-8px); } }
+
+    /* screenshot */
+    .shot { position: relative; border-radius: 18px; overflow: hidden; border: 1px solid var(--line);
+      box-shadow: 0 40px 90px rgba(0, 0, 0, .55), 0 0 0 8px rgba(255, 255, 255, .03); transform: perspective(1400px) rotateY(-8deg) rotateX(3deg); }
+    .shot img { display: block; width: 100%; height: auto; }
+    .shot::after { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255, 255, 255, .12), transparent 35%); pointer-events: none; }
+    @media (max-width: 920px) { .shot { transform: none; } }
+
+    /* ---------- download cards ---------- */
+    .downloads { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 34px; }
+    @media (max-width: 640px) { .downloads { grid-template-columns: 1fr; } }
+    .dl { position: relative; border-radius: var(--radius); padding: 22px; background: var(--card); border: 1px solid var(--line);
+      display: flex; flex-direction: column; gap: 14px; transition: transform .2s, border-color .2s, box-shadow .2s; }
+    .dl:hover { transform: translateY(-3px); border-color: rgba(255, 255, 255, .22); }
+    .dl.recommended { border-color: rgba(47, 107, 255, .7); box-shadow: 0 0 0 1px rgba(47, 107, 255, .5), 0 20px 50px rgba(47, 107, 255, .25); }
+    .dl .tag { display: none; position: absolute; top: -12px; right: 18px; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 700;
+      background: var(--blue); }
+    .dl.recommended .tag { display: block; }
+    .dl-head { display: flex; align-items: center; gap: 14px; }
+    .os { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; flex: none; }
+    .os.win { background: linear-gradient(135deg, #2f6bff, #00a2ff); }
+    .os.and { background: linear-gradient(135deg, #1fbf75, #08a05a); }
+    .os svg { width: 28px; height: 28px; fill: #fff; }
+    .dl-head b { font-size: 19px; display: block; }
+    .dl-head small { color: var(--muted); font-size: 13px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12.5px; color: var(--muted); }
+    .meta span { padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, .06); border: 1px solid var(--line); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 15px 18px; border-radius: 14px;
+      text-decoration: none; font-weight: 800; font-size: 16px; color: #fff; border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--blue), var(--blue2)); box-shadow: 0 12px 26px rgba(47, 107, 255, .35); transition: filter .2s, transform .2s; }
+    .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn.green { background: linear-gradient(135deg, #22c97d, #0b9a6d); box-shadow: 0 12px 26px rgba(31, 191, 117, .32); }
+    .btn svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .req { font-size: 12.5px; color: var(--muted); margin: 0; }
+    .all-link { margin-top: 14px; font-size: 13px; color: var(--muted); }
+
+    /* ---------- sections ---------- */
+    section { padding: 70px 0; }
+    .eyebrow { color: #7fb0ff; font-weight: 700; font-size: 13px; letter-spacing: 1.4px; text-transform: uppercase; }
+    h2 { font-size: clamp(26px, 3.4vw, 38px); margin: 8px 0 8px; line-height: 1.15; }
+    .sub { color: var(--muted); margin: 0 0 30px; max-width: 640px; }
+    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 900px) { .grid3 { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 580px) { .grid3 { grid-template-columns: 1fr; } }
+    .feature { padding: 22px; border-radius: 18px; background: var(--card); border: 1px solid var(--line); }
+    .feature .ic { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; margin-bottom: 12px; background: var(--ic); }
+    .feature h3 { margin: 0 0 4px; font-size: 17px; }
+    .feature p { margin: 0; color: var(--muted); font-size: 14px; }
+    .feature .am { display: block; color: #cdd6f5; font-size: 13.5px; margin-top: 6px; }
+
+    /* install steps */
+    .tabs { display: inline-flex; padding: 5px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); margin-bottom: 22px; }
+    .tabs button { border: none; background: none; color: var(--muted); font: 700 14px Poppins, sans-serif; padding: 10px 18px; border-radius: 10px; cursor: pointer; }
+    .tabs button[aria-selected="true"] { background: var(--blue); color: #fff; }
+    .steps { counter-reset: s; list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+    .steps[hidden] { display: none; }
+    .steps li { counter-increment: s; position: relative; padding: 16px 18px 16px 66px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); }
+    .steps li::before { content: counter(s); position: absolute; left: 16px; top: 14px; width: 34px; height: 34px; border-radius: 50%;
+      display: grid; place-items: center; font-weight: 800; background: rgba(47, 107, 255, .2); color: #a9c4ff; border: 1px solid rgba(47, 107, 255, .45); }
+    .steps li > b { display: block; }
+    .steps span { color: var(--muted); font-size: 14px; }
+    .note { margin-top: 14px; padding: 14px 16px; border-radius: 14px; font-size: 14px; background: rgba(255, 200, 61, .1); border: 1px solid rgba(255, 200, 61, .35); color: #ffe3a1; }
+
+    /* security */
+    .secure { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 760px) { .secure { grid-template-columns: 1fr; } }
+    .check { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); }
+    .check i { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-weight: 900; font-size: 14px;
+      background: rgba(31, 191, 117, .18); color: #63e6a8; }
+    .check p { margin: 0; color: var(--muted); font-size: 14px; }
+    .check b { color: var(--text); }
+    .hash { margin-top: 18px; padding: 16px; border-radius: 16px; background: rgba(0, 0, 0, .25); border: 1px solid var(--line); font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+    .hash code { color: #d7e2ff; font-family: Consolas, "Courier New", monospace; }
+
+    /* faq */
+    details { border-radius: 16px; background: var(--card); border: 1px solid var(--line); padding: 4px 18px; margin-bottom: 10px; }
+    summary { cursor: pointer; padding: 14px 0; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; font-size: 22px; line-height: 1; color: #7fb0ff; transition: transform .2s; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p { margin: 0 0 16px; color: var(--muted); font-size: 14.5px; }
+
+    /* contact */
+    .contact { border-radius: 26px; padding: 34px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+      background: linear-gradient(135deg, #1f4fe0, #6a2bd9 60%, #c2186b); box-shadow: 0 30px 70px rgba(31, 79, 224, .35); }
+    .contact h2 { margin: 0 0 4px; }
+    .contact p { margin: 0; color: rgba(255, 255, 255, .85); }
+    .btn.white { background: #fff; color: #1f2a5a; box-shadow: 0 12px 26px rgba(0, 0, 0, .25); }
+    .btn.white svg { stroke: #1f2a5a; }
+
+    footer { padding: 34px 0 44px; color: var(--muted); font-size: 13px; text-align: center; border-top: 1px solid var(--line); margin-top: 70px; }
+
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .ball { animation: none; } .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="#"><img src="assets/logo.png" alt="GoBingo"> <span>GoBingo Offline</span></a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#install">How to install</a>
+        <a href="#security">Security</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="nav-cta" href="#download">Download</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero" id="download">
+      <div class="wrap">
+        <div>
+          <span class="pill"><i></i> <span id="latestLabel">Latest version available</span></span>
+          <h1>Bingo that works <span class="grad">anywhere</span> — even without internet.</h1>
+          <p class="lead">Run your bingo hall on a Windows PC or an Android phone. Amharic voice callers, instant winner checks, and balance top-ups that work offline.</p>
+          <p class="lead am">ያለ ኢንተርኔት የሚሰራ ቢንጎ — በኮምፒውተርም በስልክም። የአማርኛ ድምጽ ጠሪ፣ ፈጣን አሸናፊ ማረጋገጫ እና ያለ ኢንተርኔት ሂሳብ መሙያ።</p>
+
+          <div class="downloads">
+            <div class="dl" id="cardWin">
+              <span class="tag">Recommended for you</span>
+              <div class="dl-head">
+                <div class="os win"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4.5l8.2-1.1v8H2zM11.3 3.2L22 1.7v9.7H11.3zM2 12.5h8.2v8L2 19.4zM11.3 12.5H22v9.8l-10.7-1.5z"/></svg></div>
+                <div><b>Windows</b><small>For PC & laptop · ለኮምፒውተር</small></div>
+              </div>
+              <div class="meta"><span id="winVer">Version 2.0.68</span><span id="winSize">323 MB</span><span>Windows 10 / 11 · 64-bit</span></div>
+              <a class="btn" id="winBtn" href="https://github.com/Smile-Room/gobingo-download/releases/latest/download/GoBingo-Offline-Setup.exe">
+                <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16"/></svg> Download for Windows
+              </a>
+              <p class="req">Installs in one click. A desktop shortcut is created.</p>
+            </div>
+
+            <div class="dl" id="cardAnd">
+              <span class="tag">Recommended for you</span>
+              <div class="dl-head">
+                <div class="os and"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 3.3l1.2 2A7.4 7.4 0 0 1 12 4.4c1.3 0 2.5.3 3.6.9l1.2-2a.5.5 0 1 1 .9.5l-1.2 2A7 7 0 0 1 19.5 11H4.5a7 7 0 0 1 3-5.2l-1.2-2a.5.5 0 1 1 .9-.5zM9 8a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zM4.5 12h15v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2z"/></svg></div>
+                <div><b>Android</b><small>For phone & tablet · ለስልክ</small></div>
+              </div>
+              <div class="meta"><span id="andVer">Version 2.1.3</span><span id="andSize">167 MB</span><span>Android 7 or newer</span></div>
+              <a class="btn green" id="andBtn" href="https://github.com/Smile-Room/gobingo-download/releases/latest/download/GoBingo-Offline.apk">
+                <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16"/></svg> Download for Android
+              </a>
+              <p class="req">APK file. Allow "Install unknown apps" when asked.</p>
+            </div>
+          </div>
+          <p class="all-link">Older versions & release notes: <a href="https://github.com/Smile-Room/gobingo-download/releases">all releases</a></p>
+        </div>
+
+        <div>
+          <div class="shot"><img src="assets/screenshot.png" alt="GoBingo Offline game board" width="1366" height="435"></div>
+          <div class="balls" aria-hidden="true">
+            <div class="ball" style="--c:#ff4d5e;--d:0s"><span>B</span></div>
+            <div class="ball" style="--c:#22c97d;--d:.2s"><span>I</span></div>
+            <div class="ball" style="--c:#2f6bff;--d:.4s"><span>N</span></div>
+            <div class="ball" style="--c:#ffc83d;--d:.6s"><span>G</span></div>
+            <div class="ball" style="--c:#2b2f3a;--d:.8s"><span>O</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="features">
+      <div class="wrap">
+        <div class="eyebrow">Features</div>
+        <h2>Everything your bingo hall needs</h2>
+        <p class="sub">Built for real halls in Ethiopia: fast, loud and clear, and it keeps working when the internet doesn't.</p>
+        <div class="grid3">
+          <div class="feature reveal" style="--ic:rgba(47,107,255,.18)"><div class="ic">📡</div><h3>Works offline</h3><p>Play every game without internet. Connect only once to activate.</p><span class="am">ያለ ኢንተርኔት ይጫወቱ</span></div>
+          <div class="feature reveal" style="--ic:rgba(255,200,61,.16)"><div class="ic">🔊</div><h3>Amharic voice callers</h3><p>Clear Amharic calls for every number, with several voices to choose from.</p><span class="am">የአማርኛ ድምጽ ጠሪዎች</span></div>
+          <div class="feature reveal" style="--ic:rgba(31,191,117,.16)"><div class="ic">🏆</div><h3>Instant winner check</h3><p>Check any card in one tap. Show all winners when the game is paused.</p><span class="am">አሸናፊን በፍጥነት ያረጋግጡ</span></div>
+          <div class="feature reveal" style="--ic:rgba(255,77,94,.16)"><div class="ic">🎫</div><h3>Offline vouchers</h3><p>Top up your balance with a voucher from your admin — no internet needed.</p><span class="am">ያለ ኢንተርኔት ሂሳብ ይሙሉ</span></div>
+          <div class="feature reveal" style="--ic:rgba(168,85,247,.18)"><div class="ic">🎮</div><h3>Free demo mode</h3><p>Show new players how it works with a free one-card demo game.</p><span class="am">ነፃ ማሳያ ጨዋታ</span></div>
+          <div class="feature reveal" style="--ic:rgba(0,162,255,.16)"><div class="ic">📊</div><h3>Reports</h3><p>Daily rounds, sales and income in one place.</p><span class="am">የዕለት ሪፖርት</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="install">
+      <div class="wrap">
+        <div class="eyebrow">How to install</div>
+        <h2>Ready in two minutes</h2>
+        <p class="sub">Pick your device. After installing, open the app, tap <b>Create My Account</b> and log in with the email your admin gave you.</p>
+        <div class="tabs" role="tablist">
+          <button role="tab" aria-selected="true" aria-controls="stepsWin" id="tabWin">Windows</button>
+          <button role="tab" aria-selected="false" aria-controls="stepsAnd" id="tabAnd">Android</button>
+        </div>
+        <ol class="steps" id="stepsWin" role="tabpanel">
+          <li><b>Download the installer</b><span>Click "Download for Windows" above and wait for the file to finish.</span></li>
+          <li><b>Open the file</b><span>Double-click <code>GoBingo-Offline-Setup.exe</code> in your Downloads folder.</span></li>
+          <li><b>If Windows shows "Windows protected your PC"</b><span>Click <b>More info</b>, then <b>Run anyway</b>. This appears for apps from small developers.</span></li>
+          <li><b>Start GoBingo</b><span>It installs by itself and opens. Use the GoBingo shortcut on your desktop next time.</span></li>
+        </ol>
+        <ol class="steps" id="stepsAnd" role="tabpanel" hidden>
+          <li><b>Download the APK</b><span>Tap "Download for Android" above. If Chrome asks, tap <b>Download anyway</b>.</span></li>
+          <li><b>Open the file</b><span>Tap the downloaded <code>GoBingo-Offline.apk</code> in the notification or in Files → Downloads.</span></li>
+          <li><b>Allow the install</b><span>If asked, tap <b>Settings</b> → turn on <b>Allow from this source</b>, then go back.</span></li>
+          <li><b>Install & open</b><span>Tap <b>Install</b>, then <b>Open</b>. If Play Protect asks, tap <b>Install anyway</b>.</span></li>
+        </ol>
+        <div class="note">Only download GoBingo from this page. Copies sent by other people may be changed. · GoBingoን ከዚህ ገጽ ብቻ ያውርዱ።</div>
+      </div>
+    </section>
+
+    <section id="security">
+      <div class="wrap">
+        <div class="eyebrow">Security</div>
+        <h2>Your balance is protected</h2>
+        <p class="sub">GoBingo is built so that only real vouchers from your admin can add balance — on your device and on our server.</p>
+        <div class="secure">
+          <div class="check reveal"><i>✓</i><p><b>Encrypted data.</b> Your games and balance are stored encrypted with a key unique to your device.</p></div>
+          <div class="check reveal"><i>✓</i><p><b>Signed vouchers.</b> Every voucher is signed by the server and works only once, only on your device.</p></div>
+          <div class="check reveal"><i>✓</i><p><b>One device per account.</b> Your account can't be taken over from another PC or phone.</p></div>
+          <div class="check reveal"><i>✓</i><p><b>Tamper-proof app.</b> The Windows app refuses to start if anyone changes its files.</p></div>
+        </div>
+        <div class="hash" id="hashes">Check your download (SHA-256): see <code>SHA256SUMS.txt</code> in the <a href="https://github.com/Smile-Room/gobingo-download/releases/latest">latest release</a>.</div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap">
+        <div class="eyebrow">FAQ</div>
+        <h2>Questions</h2>
+        <details><summary>Do I need internet to play?</summary><p>Only once, to create your account and activate offline mode. After that every game works without internet. Connect now and then so your balance limits and deposits stay in sync.</p></details>
+        <details><summary>How do I add balance?</summary><p>Open Payment → Offline Deposit, send your Request Code to your admin, and type the 15-character voucher you get back. With internet you can also use "Update Balance".</p></details>
+        <details><summary>Can I use my account on two devices?</summary><p>No. Each account works on one device. To move to a new PC or phone, ask your admin to press "Reset device" first.</p></details>
+        <details><summary>Windows says the app is not recognized. Is it safe?</summary><p>Yes, if you downloaded it from this page. Click "More info" → "Run anyway". You can also compare the file with the SHA-256 checksum in the release.</p></details>
+        <details><summary>How do I update?</summary><p>Download the newest version from this page and install it over the old one. Your account, games and balance stay.</p></details>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <div class="contact reveal">
+        <div>
+          <h2>Need help? Call us.</h2>
+          <p class="am">ለእርዳታ ይደውሉ — Solomon Girma</p>
+        </div>
+        <a class="btn white" href="tel:+251945178528"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg> 0945 17 85 28</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">© <span id="year">2026</span> GoBingo · Made in Ethiopia 🇪🇹</div>
+  </footer>
+
+  <script>
+    // Highlight the download for the visitor's device.
+    (function () {
+      var ua = navigator.userAgent || "";
+      var card = /Android/i.test(ua) ? "cardAnd" : /Windows/i.test(ua) ? "cardWin" : null;
+      if (card) document.getElementById(card).classList.add("recommended");
+      // Android phones: Android card first.
+      if (card === "cardAnd") { var a = document.getElementById("cardAnd"); a.parentNode.insertBefore(a, a.parentNode.firstElementChild); }
+    })();
+
+    // Install tabs (Android first on Android phones).
+    (function () {
+      var tabs = { tabWin: "stepsWin", tabAnd: "stepsAnd" };
+      function show(id) {
+        Object.keys(tabs).forEach(function (t) {
+          var on = t === id;
+          document.getElementById(t).setAttribute("aria-selected", on ? "true" : "false");
+          document.getElementById(tabs[t]).hidden = !on;
+        });
+      }
+      Object.keys(tabs).forEach(function (t) { document.getElementById(t).addEventListener("click", function () { show(t); }); });
+      if (/Android/i.test(navigator.userAgent)) show("tabAnd");
+    })();
+
+    // Version, size and checksums from the latest GitHub release (the
+    // values in the page are shown if GitHub can't be reached).
+    (function () {
+      var mb = function (b) { return Math.round(b / 1048576) + " MB"; };
+      fetch("https://api.github.com/repos/Smile-Room/gobingo-download/releases/latest")
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (rel) {
+          if (!rel) return;
+          var body = rel.body || "";
+          var win = /windows[^0-9]*([0-9]+\.[0-9]+\.[0-9]+)/i.exec(body);
+          var and = /android[^0-9]*([0-9]+\.[0-9]+\.[0-9]+)/i.exec(body);
+          if (win) document.getElementById("winVer").textContent = "Version " + win[1];
+          if (and) document.getElementById("andVer").textContent = "Version " + and[1];
+          (rel.assets || []).forEach(function (a) {
+            if (/\.exe$/i.test(a.name)) document.getElementById("winSize").textContent = mb(a.size);
+            if (/\.apk$/i.test(a.name)) document.getElementById("andSize").textContent = mb(a.size);
+          });
+          var date = rel.published_at ? new Date(rel.published_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
+          document.getElementById("latestLabel").textContent = "Latest release" + (date ? " · " + date : "");
+          var sums = body.match(/[0-9A-Fa-f]{64}\s+\S+/g);
+          if (sums) {
+            var el = document.getElementById("hashes");
+            el.textContent = "Check your download (SHA-256):";
+            sums.forEach(function (line) {
+              var parts = line.split(/\s+/);
+              var row = document.createElement("div");
+              row.innerHTML = "<code></code> — ";
+              row.querySelector("code").textContent = parts[0].toLowerCase();
+              row.appendChild(document.createTextNode(parts[1]));
+              el.appendChild(row);
+            });
+          }
+        })
+        .catch(function () {});
+    })();
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Fade sections in as they scroll into view.
+    (function () {
+      var items = document.querySelectorAll(".reveal");
+      if (!("IntersectionObserver" in window)) { items.forEach(function (i) { i.classList.add("in"); }); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+      }, { threshold: .15 });
+      items.forEach(function (i) { io.observe(i); });
+    })();
+  </script>
+</body>
+</html>
